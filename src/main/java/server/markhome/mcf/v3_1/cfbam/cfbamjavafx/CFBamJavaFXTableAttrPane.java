@@ -99,7 +99,10 @@ implements ICFBamJavaFXTablePaneCommon
 			"None",
 			"System",
 			"Cluster",
-			"Tenant" );
+			"Tenant",
+			"SystemGroup",
+			"ClusterGroup",
+			"TenantGroup" );
 
 	protected class DefSchemaCFLabel
 		extends CFLabel
