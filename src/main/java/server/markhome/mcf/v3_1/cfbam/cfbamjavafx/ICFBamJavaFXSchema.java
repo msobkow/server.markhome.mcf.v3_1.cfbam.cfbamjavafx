@@ -199,8 +199,6 @@ public interface ICFBamJavaFXSchema
 
 	public ICFBamJavaFXFloatTypeFactory getFloatTypeFactory();
 
-	public ICFSecJavaFXHostNodeFactory getHostNodeFactory();
-
 	public ICFSecJavaFXISOCcyFactory getISOCcyFactory();
 
 	public ICFSecJavaFXISOCtryFactory getISOCtryFactory();
@@ -289,17 +287,31 @@ public interface ICFBamJavaFXSchema
 
 	public ICFBamJavaFXScopeFactory getScopeFactory();
 
-	public ICFSecJavaFXSecDeviceFactory getSecDeviceFactory();
+	public ICFSecJavaFXSecClusGrpFactory getSecClusGrpFactory();
 
-	public ICFSecJavaFXSecGroupFactory getSecGroupFactory();
+	public ICFSecJavaFXSecClusGrpIncFactory getSecClusGrpIncFactory();
 
-	public ICFSecJavaFXSecGrpIncFactory getSecGrpIncFactory();
-
-	public ICFSecJavaFXSecGrpMembFactory getSecGrpMembFactory();
+	public ICFSecJavaFXSecClusGrpMembFactory getSecClusGrpMembFactory();
 
 	public ICFSecJavaFXSecSessionFactory getSecSessionFactory();
 
+	public ICFSecJavaFXSecSysGrpFactory getSecSysGrpFactory();
+
+	public ICFSecJavaFXSecSysGrpIncFactory getSecSysGrpIncFactory();
+
+	public ICFSecJavaFXSecSysGrpMembFactory getSecSysGrpMembFactory();
+
+	public ICFSecJavaFXSecTentGrpFactory getSecTentGrpFactory();
+
+	public ICFSecJavaFXSecTentGrpIncFactory getSecTentGrpIncFactory();
+
+	public ICFSecJavaFXSecTentGrpMembFactory getSecTentGrpMembFactory();
+
 	public ICFSecJavaFXSecUserFactory getSecUserFactory();
+
+	public ICFSecJavaFXSecUserPWHistoryFactory getSecUserPWHistoryFactory();
+
+	public ICFSecJavaFXSecUserPasswordFactory getSecUserPasswordFactory();
 
 	public ICFBamJavaFXServerListFuncFactory getServerListFuncFactory();
 
@@ -308,10 +320,6 @@ public interface ICFBamJavaFXSchema
 	public ICFBamJavaFXServerObjFuncFactory getServerObjFuncFactory();
 
 	public ICFBamJavaFXServerProcFactory getServerProcFactory();
-
-	public ICFSecJavaFXServiceFactory getServiceFactory();
-
-	public ICFSecJavaFXServiceTypeFactory getServiceTypeFactory();
 
 	public ICFBamJavaFXStringColFactory getStringColFactory();
 
@@ -322,12 +330,6 @@ public interface ICFBamJavaFXSchema
 	public ICFIntJavaFXSubProjectFactory getSubProjectFactory();
 
 	public ICFSecJavaFXSysClusterFactory getSysClusterFactory();
-
-	public ICFSecJavaFXTSecGroupFactory getTSecGroupFactory();
-
-	public ICFSecJavaFXTSecGrpIncFactory getTSecGrpIncFactory();
-
-	public ICFSecJavaFXTSecGrpMembFactory getTSecGrpMembFactory();
 
 	public ICFBamJavaFXTZDateColFactory getTZDateColFactory();
 
