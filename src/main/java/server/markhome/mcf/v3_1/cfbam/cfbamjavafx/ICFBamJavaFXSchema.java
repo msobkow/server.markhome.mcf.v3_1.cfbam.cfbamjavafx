@@ -285,6 +285,8 @@ public interface ICFBamJavaFXSchema
 
 	public ICFBamJavaFXSchemaRefFactory getSchemaRefFactory();
 
+	public ICFBamJavaFXSchemaTweakFactory getSchemaTweakFactory();
+
 	public ICFBamJavaFXScopeFactory getScopeFactory();
 
 	public ICFSecJavaFXSecClusGrpFactory getSecClusGrpFactory();
@@ -353,6 +355,8 @@ public interface ICFBamJavaFXSchema
 
 	public ICFBamJavaFXTableColFactory getTableColFactory();
 
+	public ICFBamJavaFXTableTweakFactory getTableTweakFactory();
+
 	public ICFSecJavaFXTenantFactory getTenantFactory();
 
 	public ICFBamJavaFXTextColFactory getTextColFactory();
@@ -384,6 +388,8 @@ public interface ICFBamJavaFXSchema
 	public ICFIntJavaFXTopDomainFactory getTopDomainFactory();
 
 	public ICFIntJavaFXTopProjectFactory getTopProjectFactory();
+
+	public ICFBamJavaFXTweakFactory getTweakFactory();
 
 	public ICFBamJavaFXUInt16ColFactory getUInt16ColFactory();
 

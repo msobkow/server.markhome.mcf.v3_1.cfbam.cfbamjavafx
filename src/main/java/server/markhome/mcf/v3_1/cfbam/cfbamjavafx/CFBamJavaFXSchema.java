@@ -172,6 +172,7 @@ implements ICFBamJavaFXSchema
 	protected ICFBamJavaFXRelationColFactory factoryRelationCol = null;
 	protected ICFBamJavaFXSchemaDefFactory factorySchemaDef = null;
 	protected ICFBamJavaFXSchemaRefFactory factorySchemaRef = null;
+	protected ICFBamJavaFXSchemaTweakFactory factorySchemaTweak = null;
 	protected ICFBamJavaFXScopeFactory factoryScope = null;
 	protected ICFSecJavaFXSecClusGrpFactory factorySecClusGrp = null;
 	protected ICFSecJavaFXSecClusGrpIncFactory factorySecClusGrpInc = null;
@@ -206,6 +207,7 @@ implements ICFBamJavaFXSchema
 	protected ICFBamJavaFXTZTimestampTypeFactory factoryTZTimestampType = null;
 	protected ICFBamJavaFXTableFactory factoryTable = null;
 	protected ICFBamJavaFXTableColFactory factoryTableCol = null;
+	protected ICFBamJavaFXTableTweakFactory factoryTableTweak = null;
 	protected ICFSecJavaFXTenantFactory factoryTenant = null;
 	protected ICFBamJavaFXTextColFactory factoryTextCol = null;
 	protected ICFBamJavaFXTextDefFactory factoryTextDef = null;
@@ -222,6 +224,7 @@ implements ICFBamJavaFXSchema
 	protected ICFBamJavaFXTokenTypeFactory factoryTokenType = null;
 	protected ICFIntJavaFXTopDomainFactory factoryTopDomain = null;
 	protected ICFIntJavaFXTopProjectFactory factoryTopProject = null;
+	protected ICFBamJavaFXTweakFactory factoryTweak = null;
 	protected ICFBamJavaFXUInt16ColFactory factoryUInt16Col = null;
 	protected ICFBamJavaFXUInt16DefFactory factoryUInt16Def = null;
 	protected ICFBamJavaFXUInt16TypeFactory factoryUInt16Type = null;
@@ -1094,6 +1097,13 @@ implements ICFBamJavaFXSchema
 		return( factorySchemaRef );
 	}
 
+	public ICFBamJavaFXSchemaTweakFactory getSchemaTweakFactory() {
+		if( factorySchemaTweak == null ) {
+			factorySchemaTweak = new CFBamJavaFXSchemaTweakFactory( this );
+		}
+		return( factorySchemaTweak );
+	}
+
 	public ICFBamJavaFXScopeFactory getScopeFactory() {
 		if( factoryScope == null ) {
 			factoryScope = new CFBamJavaFXScopeFactory( this );
@@ -1332,6 +1342,13 @@ implements ICFBamJavaFXSchema
 		return( factoryTableCol );
 	}
 
+	public ICFBamJavaFXTableTweakFactory getTableTweakFactory() {
+		if( factoryTableTweak == null ) {
+			factoryTableTweak = new CFBamJavaFXTableTweakFactory( this );
+		}
+		return( factoryTableTweak );
+	}
+
 	public ICFSecJavaFXTenantFactory getTenantFactory() {
 		if( factoryTenant == null ) {
 			factoryTenant = new CFSecJavaFXTenantFactory( this );
@@ -1442,6 +1459,13 @@ implements ICFBamJavaFXSchema
 			factoryTopProject = new CFIntJavaFXTopProjectFactory( this );
 		}
 		return( factoryTopProject );
+	}
+
+	public ICFBamJavaFXTweakFactory getTweakFactory() {
+		if( factoryTweak == null ) {
+			factoryTweak = new CFBamJavaFXTweakFactory( this );
+		}
+		return( factoryTweak );
 	}
 
 	public ICFBamJavaFXUInt16ColFactory getUInt16ColFactory() {

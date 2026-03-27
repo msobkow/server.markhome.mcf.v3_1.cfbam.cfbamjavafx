@@ -82,9 +82,12 @@ implements ICFBamJavaFXSchemaDefPaneCommon
 	protected CFTab tabComponentsTypes = null;
 	public final String LABEL_TabComponentsSchemaRefsList = "Optional Components Schema References";
 	protected CFTab tabComponentsSchemaRefs = null;
+	public final String LABEL_TabComponentsTweaksList = "Optional Components Schema Tweaks";
+	protected CFTab tabComponentsTweaks = null;
 	protected CFBorderPane tabViewComponentsTablesListPane = null;
 	protected CFBorderPane tabViewComponentsTypesListPane = null;
 	protected CFBorderPane tabViewComponentsSchemaRefsListPane = null;
+	protected CFBorderPane tabViewComponentsTweaksListPane = null;
 
 	public CFBamJavaFXSchemaDefEltTabPane( ICFFormManager formManager, ICFBamJavaFXSchema argSchema, ICFBamSchemaDefObj argFocus ) {
 		super();
@@ -119,6 +122,10 @@ implements ICFBamJavaFXSchemaDefPaneCommon
 		tabComponentsSchemaRefs.setText( LABEL_TabComponentsSchemaRefsList );
 		tabComponentsSchemaRefs.setContent( getTabViewComponentsSchemaRefsListPane() );
 		getTabs().add( tabComponentsSchemaRefs );
+		tabComponentsTweaks = new CFTab();
+		tabComponentsTweaks.setText( LABEL_TabComponentsTweaksList );
+		tabComponentsTweaks.setContent( getTabViewComponentsTweaksListPane() );
+		getTabs().add( tabComponentsTweaks );
 		javafxIsInitializing = false;
 	}
 
@@ -292,6 +299,49 @@ implements ICFBamJavaFXSchemaDefPaneCommon
 		return( tabViewComponentsSchemaRefsListPane );
 	}
 
+	protected class RefreshComponentsTweaksList
+	implements ICFRefreshCallback
+	{
+		public RefreshComponentsTweaksList() {
+		}
+
+		public void refreshMe() {
+			Collection<ICFBamTweakObj> dataCollection;
+			ICFBamSchemaDefObj focus = (ICFBamSchemaDefObj)getJavaFXFocusAsSchemaDef();
+			if( focus != null ) {
+				dataCollection = focus.getOptionalComponentsTweaks( javafxIsInitializing );
+			}
+			else {
+				dataCollection = null;
+			}
+			CFBorderPane pane = getTabViewComponentsTweaksListPane();
+			ICFBamJavaFXTweakPaneList jpList = (ICFBamJavaFXTweakPaneList)pane;
+			jpList.setJavaFXDataCollection( dataCollection );
+		}
+	}
+
+	public CFBorderPane getTabViewComponentsTweaksListPane() {
+		if( tabViewComponentsTweaksListPane == null ) {
+			ICFBamSchemaDefObj focus = (ICFBamSchemaDefObj)getJavaFXFocusAsSchemaDef();
+			Collection<ICFBamTweakObj> dataCollection;
+			if( focus != null ) {
+				dataCollection = focus.getOptionalComponentsTweaks( javafxIsInitializing );
+			}
+			else {
+				dataCollection = null;
+			}
+			ICFBamScopeObj javafxContainer;
+			if( ( focus != null ) && ( focus instanceof ICFBamScopeObj ) ) {
+				javafxContainer = (ICFBamScopeObj)focus;
+			}
+			else {
+				javafxContainer = null;
+			}
+			tabViewComponentsTweaksListPane = javafxSchema.getTweakFactory().newListPane( cfFormManager, javafxContainer, null, dataCollection, new RefreshComponentsTweaksList(), false );
+		}
+		return( tabViewComponentsTweaksListPane );
+	}
+
 	public void setPaneMode( CFPane.PaneMode value ) {
 		CFPane.PaneMode oldMode = getPaneMode();
 		super.setPaneMode( value );
@@ -303,6 +353,9 @@ implements ICFBamJavaFXSchemaDefPaneCommon
 		}
 		if( tabViewComponentsSchemaRefsListPane != null ) {
 			((ICFBamJavaFXSchemaRefPaneCommon)tabViewComponentsSchemaRefsListPane).setPaneMode( value );
+		}
+		if( tabViewComponentsTweaksListPane != null ) {
+			((ICFBamJavaFXTweakPaneCommon)tabViewComponentsTweaksListPane).setPaneMode( value );
 		}
 	}
 }
