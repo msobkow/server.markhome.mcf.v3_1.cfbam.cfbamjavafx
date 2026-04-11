@@ -247,6 +247,25 @@ implements ICFBamJavaFXTweakPaneCommon
 		}
 	}
 
+	protected class ReplacesInheritedCFLabel
+		extends CFLabel
+	{
+		public ReplacesInheritedCFLabel() {
+			super();
+			setText(Inz.s("cfbam.javafx.Tweak.AttrPane.ReplacesInherited.EffLabel"));
+		}
+	}
+
+	protected class ReplacesInheritedEditor
+		extends CFBoolEditor
+	{
+		public ReplacesInheritedEditor() {
+			super();
+			setIsNullable( false );
+			setFieldNameInzTag( "cfbam.javafx.Tweak.AttrPane.ReplacesInherited.EffLabel" );
+		}
+	}
+
 	protected class TweakGelTextCFLabel
 		extends CFLabel
 	{
@@ -279,6 +298,8 @@ implements ICFBamJavaFXTweakPaneCommon
 	protected DefSchemaTenantIdEditor javafxEditorDefSchemaTenantId = null;
 	protected NameCFLabel javafxLabelName = null;
 	protected NameEditor javafxEditorName = null;
+	protected ReplacesInheritedCFLabel javafxLabelReplacesInherited = null;
+	protected ReplacesInheritedEditor javafxEditorReplacesInherited = null;
 	protected TweakGelTextCFLabel javafxLabelTweakGelText = null;
 	protected TweakGelTextEditor javafxEditorTweakGelText = null;
 
@@ -364,6 +385,17 @@ implements ICFBamJavaFXTweakPaneCommon
 		gridRow ++;
 
 		ctrl = getJavaFXEditorName();
+		setHalignment( ctrl, HPos.LEFT );
+		add( ctrl, 0, gridRow );
+		gridRow ++;
+
+		label = getJavaFXLabelReplacesInherited();
+		setHalignment( label, HPos.LEFT );
+		setValignment( label, VPos.BOTTOM );
+		add( label, 0, gridRow );
+		gridRow ++;
+
+		ctrl = getJavaFXEditorReplacesInherited();
 		setHalignment( ctrl, HPos.LEFT );
 		add( ctrl, 0, gridRow );
 		gridRow ++;
@@ -551,6 +583,28 @@ implements ICFBamJavaFXTweakPaneCommon
 		javafxEditorName = value;
 	}
 
+	public ReplacesInheritedCFLabel getJavaFXLabelReplacesInherited() {
+		if( javafxLabelReplacesInherited == null ) {
+			javafxLabelReplacesInherited = new ReplacesInheritedCFLabel();
+		}
+		return( javafxLabelReplacesInherited );
+	}
+
+	public void setJavaFXLabelReplacesInherited( ReplacesInheritedCFLabel value ) {
+		javafxLabelReplacesInherited = value;
+	}
+
+	public ReplacesInheritedEditor getJavaFXEditorReplacesInherited() {
+		if( javafxEditorReplacesInherited == null ) {
+			javafxEditorReplacesInherited = new ReplacesInheritedEditor();
+		}
+		return( javafxEditorReplacesInherited );
+	}
+
+	public void setJavaFXEditorReplacesInherited( ReplacesInheritedEditor value ) {
+		javafxEditorReplacesInherited = value;
+	}
+
 	public TweakGelTextCFLabel getJavaFXLabelTweakGelText() {
 		if( javafxLabelTweakGelText == null ) {
 			javafxLabelTweakGelText = new TweakGelTextCFLabel();
@@ -618,6 +672,13 @@ implements ICFBamJavaFXTweakPaneCommon
 		}
 
 		if( popObj == null ) {
+			getJavaFXEditorReplacesInherited().setBooleanValue( null );
+		}
+		else {
+			getJavaFXEditorReplacesInherited().setBooleanValue( popObj.getRequiredReplacesInherited() );
+		}
+
+		if( popObj == null ) {
 			getJavaFXEditorTweakGelText().setTextValue( null );
 		}
 		else {
@@ -656,6 +717,8 @@ implements ICFBamJavaFXTweakPaneCommon
 		else {
 			editObj.setRequiredName( getJavaFXEditorName().getStringValue() );
 		}
+
+		editObj.setRequiredReplacesInherited( getJavaFXEditorReplacesInherited().getBooleanValue() );
 
 		if( getJavaFXEditorTweakGelText().getTextValue() == null ) {
 			editObj.setRequiredTweakGelText( "" );
@@ -962,6 +1025,9 @@ implements ICFBamJavaFXTweakPaneCommon
 		}
 		if( javafxEditorName != null ) {
 			javafxEditorName.setDisable( ! isEditing );
+		}
+		if( javafxEditorReplacesInherited != null ) {
+			javafxEditorReplacesInherited.setDisable( ! isEditing );
 		}
 		if( javafxEditorTweakGelText != null ) {
 			javafxEditorTweakGelText.setDisable( ! isEditing );

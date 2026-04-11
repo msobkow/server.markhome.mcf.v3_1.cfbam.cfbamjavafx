@@ -100,6 +100,7 @@ implements ICFBamJavaFXTableTweakPaneList
 	protected TableColumn<ICFBamTableTweakObj, CFLibDbKeyHash256> tableColumnId = null;
 	protected TableColumn<ICFBamTableTweakObj, CFLibDbKeyHash256> tableColumnDefSchemaTenantId = null;
 	protected TableColumn<ICFBamTableTweakObj, String> tableColumnName = null;
+	protected TableColumn<ICFBamTableTweakObj, Boolean> tableColumnReplacesInherited = null;
 	protected TableColumn<ICFBamTableTweakObj, String> tableColumnTweakGelText = null;
 	protected TableColumn<ICFBamTableTweakObj, ICFBamSchemaDefObj> tableColumnLookupDefSchema = null;
 
@@ -282,7 +283,31 @@ implements ICFBamJavaFXTableTweakPaneList
 			}
 		});
 		dataTable.getColumns().add( tableColumnName );
-		tableColumnTweakGelText = new TableColumn<ICFBamTableTweakObj,String>( "TweakGelText" );
+		tableColumnReplacesInherited = new TableColumn<ICFBamTableTweakObj,Boolean>( "Replaces Inherited" );
+		tableColumnReplacesInherited.setCellValueFactory( new Callback<CellDataFeatures<ICFBamTableTweakObj,Boolean>,ObservableValue<Boolean> >() {
+			public ObservableValue<Boolean> call( CellDataFeatures<ICFBamTableTweakObj, Boolean> p ) {
+				ICFBamTweakObj obj = p.getValue();
+				if( obj == null ) {
+					return( null );
+				}
+				else {
+					boolean value = obj.getRequiredReplacesInherited();
+					Boolean wrapped = Boolean.valueOf( value );
+					ReadOnlyObjectWrapper<Boolean> observable = new ReadOnlyObjectWrapper<Boolean>();
+					observable.setValue( wrapped );
+					return( observable );
+				}
+			}
+		});
+		tableColumnReplacesInherited.setCellFactory( new Callback<TableColumn<ICFBamTableTweakObj,Boolean>,TableCell<ICFBamTableTweakObj,Boolean>>() {
+			@Override public TableCell<ICFBamTableTweakObj,Boolean> call(
+				TableColumn<ICFBamTableTweakObj,Boolean> arg)
+			{
+				return new CFBoolTableCell<ICFBamTableTweakObj>();
+			}
+		});
+		dataTable.getColumns().add( tableColumnReplacesInherited );
+		tableColumnTweakGelText = new TableColumn<ICFBamTableTweakObj,String>( "GEL Text" );
 		tableColumnTweakGelText.setCellValueFactory( new Callback<CellDataFeatures<ICFBamTableTweakObj,String>,ObservableValue<String> >() {
 			public ObservableValue<String> call( CellDataFeatures<ICFBamTableTweakObj, String> p ) {
 				ICFBamTweakObj obj = p.getValue();

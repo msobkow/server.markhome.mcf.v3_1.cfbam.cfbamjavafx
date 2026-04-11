@@ -106,6 +106,7 @@ implements ICFBamJavaFXTweakPaneList
 	protected TableColumn<ICFBamTweakObj, CFLibDbKeyHash256> tableColumnId = null;
 	protected TableColumn<ICFBamTweakObj, CFLibDbKeyHash256> tableColumnDefSchemaTenantId = null;
 	protected TableColumn<ICFBamTweakObj, String> tableColumnName = null;
+	protected TableColumn<ICFBamTweakObj, Boolean> tableColumnReplacesInherited = null;
 	protected TableColumn<ICFBamTweakObj, String> tableColumnTweakGelText = null;
 	protected TableColumn<ICFBamTweakObj, ICFBamSchemaDefObj> tableColumnLookupDefSchema = null;
 
@@ -311,7 +312,31 @@ implements ICFBamJavaFXTweakPaneList
 			}
 		});
 		dataTable.getColumns().add( tableColumnName );
-		tableColumnTweakGelText = new TableColumn<ICFBamTweakObj,String>( "TweakGelText" );
+		tableColumnReplacesInherited = new TableColumn<ICFBamTweakObj,Boolean>( "Replaces Inherited" );
+		tableColumnReplacesInherited.setCellValueFactory( new Callback<CellDataFeatures<ICFBamTweakObj,Boolean>,ObservableValue<Boolean> >() {
+			public ObservableValue<Boolean> call( CellDataFeatures<ICFBamTweakObj, Boolean> p ) {
+				ICFBamTweakObj obj = p.getValue();
+				if( obj == null ) {
+					return( null );
+				}
+				else {
+					boolean value = obj.getRequiredReplacesInherited();
+					Boolean wrapped = Boolean.valueOf( value );
+					ReadOnlyObjectWrapper<Boolean> observable = new ReadOnlyObjectWrapper<Boolean>();
+					observable.setValue( wrapped );
+					return( observable );
+				}
+			}
+		});
+		tableColumnReplacesInherited.setCellFactory( new Callback<TableColumn<ICFBamTweakObj,Boolean>,TableCell<ICFBamTweakObj,Boolean>>() {
+			@Override public TableCell<ICFBamTweakObj,Boolean> call(
+				TableColumn<ICFBamTweakObj,Boolean> arg)
+			{
+				return new CFBoolTableCell<ICFBamTweakObj>();
+			}
+		});
+		dataTable.getColumns().add( tableColumnReplacesInherited );
+		tableColumnTweakGelText = new TableColumn<ICFBamTweakObj,String>( "GEL Text" );
 		tableColumnTweakGelText.setCellValueFactory( new Callback<CellDataFeatures<ICFBamTweakObj,String>,ObservableValue<String> >() {
 			public ObservableValue<String> call( CellDataFeatures<ICFBamTweakObj, String> p ) {
 				ICFBamTweakObj obj = p.getValue();
