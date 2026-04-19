@@ -97,6 +97,7 @@ implements ICFBamJavaFXTweakPaneList
 	protected CFButton buttonCancelAdd = null;
 	protected CFButton buttonAddTableTweak = null;
 	protected CFButton buttonAddSchemaTweak = null;
+	protected CFButton buttonAddIndexTweak = null;
 	protected CFButton buttonViewSelected = null;
 	protected CFButton buttonEditSelected = null;
 	protected CFButton buttonDeleteSelected = null;
@@ -629,6 +630,46 @@ implements ICFBamJavaFXTweakPaneList
 					if( javafxContainer instanceof ICFBamSchemaDefObj ) {
 						list.add( buttonAddSchemaTweak );
 					}
+					buttonAddIndexTweak = new CFButton();
+					buttonAddIndexTweak.setMinWidth( 200 );
+					buttonAddIndexTweak.setText( "Add IndexTweak" );
+					buttonAddIndexTweak.setOnAction( new EventHandler<ActionEvent>() {
+						@Override public void handle( ActionEvent e ) {
+							final String S_ProcName = "handle";
+							try {
+								ICFBamSchemaObj schemaObj = (ICFBamSchemaObj)javafxSchema.getSchema();
+								ICFBamIndexTweakObj obj = (ICFBamIndexTweakObj)schemaObj.getIndexTweakTableObj().newInstance();
+								CFBorderPane frame = javafxSchema.getIndexTweakFactory().newAddForm( cfFormManager, obj, getViewEditClosedCallback(), true );
+								ICFBamIndexTweakEditObj edit = (ICFBamIndexTweakEditObj)( obj.beginEdit() );
+								if( edit == null ) {
+									throw new CFLibNullArgumentException( getClass(),
+										S_ProcName,
+										0,
+										"edit" );
+								}
+								ICFBamIndexObj container = (ICFBamIndexObj)( getJavaFXContainer() );
+								if( container == null ) {
+									throw new CFLibNullArgumentException( getClass(),
+										S_ProcName,
+										0,
+										"JavaFXContainer" );
+								}
+								edit.setRequiredContainerIndexDef( container );
+								ICFBamJavaFXIndexTweakPaneCommon jpanelCommon = (ICFBamJavaFXIndexTweakPaneCommon)frame;
+								jpanelCommon.setJavaFXFocus( obj );
+								jpanelCommon.setPaneMode( CFPane.PaneMode.Add );
+								cfFormManager.pushForm( frame );
+								setLeft( null );
+								adjustListButtons();
+							}
+							catch( Throwable t ) {
+								CFConsole.formException( S_FormName, ((CFButton)e.getSource()).getText(), t );
+							}
+						}
+					});
+					if( javafxContainer instanceof ICFBamIndexObj ) {
+						list.add( buttonAddIndexTweak );
+					}
 
 				int len = list.size();
 				CFButton arr[] = new CFButton[len];
@@ -720,12 +761,18 @@ implements ICFBamJavaFXTweakPaneList
 								((ICFBamJavaFXSchemaTweakPaneCommon)frame).setPaneMode( CFPane.PaneMode.View );
 								cfFormManager.pushForm( frame );
 							}
+							else if( entry.getSchemaName().equals("CFBam") && backingClassCode == ICFBamIndexTweak.CLASS_CODE ) {
+								ICFBamIndexTweakObj obj = (ICFBamIndexTweakObj)selectedInstance;
+								CFBorderPane frame = javafxSchema.getIndexTweakFactory().newViewEditForm( cfFormManager, obj, getViewEditClosedCallback(), false );
+								((ICFBamJavaFXIndexTweakPaneCommon)frame).setPaneMode( CFPane.PaneMode.View );
+								cfFormManager.pushForm( frame );
+							}
 							else {
 								throw new CFLibUnsupportedClassException( getClass(),
 									S_ProcName,
 									"selectedInstance",
 									selectedInstance,
-									"ICFBamTweakObj, ICFBamTableTweakObj, ICFBamSchemaTweakObj" );
+									"ICFBamTweakObj, ICFBamTableTweakObj, ICFBamSchemaTweakObj, ICFBamIndexTweakObj" );
 							}
 						}
 					}
@@ -772,12 +819,18 @@ implements ICFBamJavaFXTweakPaneList
 								((ICFBamJavaFXSchemaTweakPaneCommon)frame).setPaneMode( CFPane.PaneMode.Edit );
 								cfFormManager.pushForm( frame );
 							}
+							else if( entry.getSchemaName().equals("CFBam") && backingClassCode == ICFBamIndexTweak.CLASS_CODE ) {
+								ICFBamIndexTweakObj obj = (ICFBamIndexTweakObj)selectedInstance;
+								CFBorderPane frame = javafxSchema.getIndexTweakFactory().newViewEditForm( cfFormManager, obj, getViewEditClosedCallback(), false );
+								((ICFBamJavaFXIndexTweakPaneCommon)frame).setPaneMode( CFPane.PaneMode.Edit );
+								cfFormManager.pushForm( frame );
+							}
 							else {
 								throw new CFLibUnsupportedClassException( getClass(),
 									S_ProcName,
 									"selectedInstance",
 									selectedInstance,
-									"ICFBamTweakObj, ICFBamTableTweakObj, ICFBamSchemaTweakObj" );
+									"ICFBamTweakObj, ICFBamTableTweakObj, ICFBamSchemaTweakObj, ICFBamIndexTweakObj" );
 							}
 						}
 					}
@@ -824,12 +877,18 @@ implements ICFBamJavaFXTweakPaneList
 								((ICFBamJavaFXSchemaTweakPaneCommon)frame).setPaneMode( CFPane.PaneMode.View );
 								cfFormManager.pushForm( frame );
 							}
+							else if( entry.getSchemaName().equals("CFBam") && backingClassCode == ICFBamIndexTweak.CLASS_CODE ) {
+								ICFBamIndexTweakObj obj = (ICFBamIndexTweakObj)selectedInstance;
+								CFBorderPane frame = javafxSchema.getIndexTweakFactory().newAskDeleteForm( cfFormManager, obj, getDeleteCallback() );
+								((ICFBamJavaFXIndexTweakPaneCommon)frame).setPaneMode( CFPane.PaneMode.View );
+								cfFormManager.pushForm( frame );
+							}
 							else {
 								throw new CFLibUnsupportedClassException( getClass(),
 									S_ProcName,
 									"selectedInstance",
 									selectedInstance,
-									"ICFBamTweakObj, ICFBamTableTweakObj, ICFBamSchemaTweakObj" );
+									"ICFBamTweakObj, ICFBamTableTweakObj, ICFBamSchemaTweakObj, ICFBamIndexTweakObj" );
 							}
 						}
 					}

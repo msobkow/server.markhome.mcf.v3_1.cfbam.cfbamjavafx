@@ -221,6 +221,8 @@ public interface ICFBamJavaFXSchema
 
 	public ICFBamJavaFXIndexColFactory getIndexColFactory();
 
+	public ICFBamJavaFXIndexTweakFactory getIndexTweakFactory();
+
 	public ICFBamJavaFXInt16ColFactory getInt16ColFactory();
 
 	public ICFBamJavaFXInt16DefFactory getInt16DefFactory();

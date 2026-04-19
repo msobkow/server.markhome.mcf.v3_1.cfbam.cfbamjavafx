@@ -140,6 +140,7 @@ implements ICFBamJavaFXSchema
 	protected ICFBamJavaFXId64GenFactory factoryId64Gen = null;
 	protected ICFBamJavaFXIndexFactory factoryIndex = null;
 	protected ICFBamJavaFXIndexColFactory factoryIndexCol = null;
+	protected ICFBamJavaFXIndexTweakFactory factoryIndexTweak = null;
 	protected ICFBamJavaFXInt16ColFactory factoryInt16Col = null;
 	protected ICFBamJavaFXInt16DefFactory factoryInt16Def = null;
 	protected ICFBamJavaFXInt16TypeFactory factoryInt16Type = null;
@@ -873,6 +874,13 @@ implements ICFBamJavaFXSchema
 			factoryIndexCol = new CFBamJavaFXIndexColFactory( this );
 		}
 		return( factoryIndexCol );
+	}
+
+	public ICFBamJavaFXIndexTweakFactory getIndexTweakFactory() {
+		if( factoryIndexTweak == null ) {
+			factoryIndexTweak = new CFBamJavaFXIndexTweakFactory( this );
+		}
+		return( factoryIndexTweak );
 	}
 
 	public ICFBamJavaFXInt16ColFactory getInt16ColFactory() {
