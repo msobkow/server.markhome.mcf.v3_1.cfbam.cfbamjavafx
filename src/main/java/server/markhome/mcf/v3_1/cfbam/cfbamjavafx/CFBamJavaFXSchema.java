@@ -178,6 +178,11 @@ implements ICFBamJavaFXSchema
 	protected ICFSecJavaFXSecClusGrpFactory factorySecClusGrp = null;
 	protected ICFSecJavaFXSecClusGrpIncFactory factorySecClusGrpInc = null;
 	protected ICFSecJavaFXSecClusGrpMembFactory factorySecClusGrpMemb = null;
+	protected ICFSecJavaFXSecClusRoleFactory factorySecClusRole = null;
+	protected ICFSecJavaFXSecClusRoleMembFactory factorySecClusRoleMemb = null;
+	protected ICFSecJavaFXSecRoleFactory factorySecRole = null;
+	protected ICFSecJavaFXSecRoleEnablesFactory factorySecRoleEnables = null;
+	protected ICFSecJavaFXSecRoleMembFactory factorySecRoleMemb = null;
 	protected ICFSecJavaFXSecSessionFactory factorySecSession = null;
 	protected ICFSecJavaFXSecSysGrpFactory factorySecSysGrp = null;
 	protected ICFSecJavaFXSecSysGrpIncFactory factorySecSysGrpInc = null;
@@ -185,6 +190,8 @@ implements ICFBamJavaFXSchema
 	protected ICFSecJavaFXSecTentGrpFactory factorySecTentGrp = null;
 	protected ICFSecJavaFXSecTentGrpIncFactory factorySecTentGrpInc = null;
 	protected ICFSecJavaFXSecTentGrpMembFactory factorySecTentGrpMemb = null;
+	protected ICFSecJavaFXSecTentRoleFactory factorySecTentRole = null;
+	protected ICFSecJavaFXSecTentRoleMembFactory factorySecTentRoleMemb = null;
 	protected ICFSecJavaFXSecUserFactory factorySecUser = null;
 	protected ICFSecJavaFXSecUserEMConfFactory factorySecUserEMConf = null;
 	protected ICFSecJavaFXSecUserPWHistoryFactory factorySecUserPWHistory = null;
@@ -1142,6 +1149,41 @@ implements ICFBamJavaFXSchema
 		return( factorySecClusGrpMemb );
 	}
 
+	public ICFSecJavaFXSecClusRoleFactory getSecClusRoleFactory() {
+		if( factorySecClusRole == null ) {
+			factorySecClusRole = new CFSecJavaFXSecClusRoleFactory( this );
+		}
+		return( factorySecClusRole );
+	}
+
+	public ICFSecJavaFXSecClusRoleMembFactory getSecClusRoleMembFactory() {
+		if( factorySecClusRoleMemb == null ) {
+			factorySecClusRoleMemb = new CFSecJavaFXSecClusRoleMembFactory( this );
+		}
+		return( factorySecClusRoleMemb );
+	}
+
+	public ICFSecJavaFXSecRoleFactory getSecRoleFactory() {
+		if( factorySecRole == null ) {
+			factorySecRole = new CFSecJavaFXSecRoleFactory( this );
+		}
+		return( factorySecRole );
+	}
+
+	public ICFSecJavaFXSecRoleEnablesFactory getSecRoleEnablesFactory() {
+		if( factorySecRoleEnables == null ) {
+			factorySecRoleEnables = new CFSecJavaFXSecRoleEnablesFactory( this );
+		}
+		return( factorySecRoleEnables );
+	}
+
+	public ICFSecJavaFXSecRoleMembFactory getSecRoleMembFactory() {
+		if( factorySecRoleMemb == null ) {
+			factorySecRoleMemb = new CFSecJavaFXSecRoleMembFactory( this );
+		}
+		return( factorySecRoleMemb );
+	}
+
 	public ICFSecJavaFXSecSessionFactory getSecSessionFactory() {
 		if( factorySecSession == null ) {
 			factorySecSession = new CFSecJavaFXSecSessionFactory( this );
@@ -1189,6 +1231,20 @@ implements ICFBamJavaFXSchema
 			factorySecTentGrpMemb = new CFSecJavaFXSecTentGrpMembFactory( this );
 		}
 		return( factorySecTentGrpMemb );
+	}
+
+	public ICFSecJavaFXSecTentRoleFactory getSecTentRoleFactory() {
+		if( factorySecTentRole == null ) {
+			factorySecTentRole = new CFSecJavaFXSecTentRoleFactory( this );
+		}
+		return( factorySecTentRole );
+	}
+
+	public ICFSecJavaFXSecTentRoleMembFactory getSecTentRoleMembFactory() {
+		if( factorySecTentRoleMemb == null ) {
+			factorySecTentRoleMemb = new CFSecJavaFXSecTentRoleMembFactory( this );
+		}
+		return( factorySecTentRoleMemb );
 	}
 
 	public ICFSecJavaFXSecUserFactory getSecUserFactory() {
