@@ -84,10 +84,13 @@ implements ICFBamJavaFXSchemaDefPaneCommon
 	protected CFTab tabComponentsSchemaRefs = null;
 	public final String LABEL_TabComponentsTweaksList = "Optional Components Schema Tweaks";
 	protected CFTab tabComponentsTweaks = null;
+	public final String LABEL_TabComponentsRolesList = "Optional Components Schema Roles";
+	protected CFTab tabComponentsRoles = null;
 	protected CFBorderPane tabViewComponentsTablesListPane = null;
 	protected CFBorderPane tabViewComponentsTypesListPane = null;
 	protected CFBorderPane tabViewComponentsSchemaRefsListPane = null;
 	protected CFBorderPane tabViewComponentsTweaksListPane = null;
+	protected CFBorderPane tabViewComponentsRolesListPane = null;
 
 	public CFBamJavaFXSchemaDefEltTabPane( ICFFormManager formManager, ICFBamJavaFXSchema argSchema, ICFBamSchemaDefObj argFocus ) {
 		super();
@@ -126,6 +129,10 @@ implements ICFBamJavaFXSchemaDefPaneCommon
 		tabComponentsTweaks.setText( LABEL_TabComponentsTweaksList );
 		tabComponentsTweaks.setContent( getTabViewComponentsTweaksListPane() );
 		getTabs().add( tabComponentsTweaks );
+		tabComponentsRoles = new CFTab();
+		tabComponentsRoles.setText( LABEL_TabComponentsRolesList );
+		tabComponentsRoles.setContent( getTabViewComponentsRolesListPane() );
+		getTabs().add( tabComponentsRoles );
 		javafxIsInitializing = false;
 	}
 
@@ -342,6 +349,49 @@ implements ICFBamJavaFXSchemaDefPaneCommon
 		return( tabViewComponentsTweaksListPane );
 	}
 
+	protected class RefreshComponentsRolesList
+	implements ICFRefreshCallback
+	{
+		public RefreshComponentsRolesList() {
+		}
+
+		public void refreshMe() {
+			Collection<ICFBamSchemaRoleObj> dataCollection;
+			ICFBamSchemaDefObj focus = (ICFBamSchemaDefObj)getJavaFXFocusAsSchemaDef();
+			if( focus != null ) {
+				dataCollection = focus.getOptionalComponentsRoles( javafxIsInitializing );
+			}
+			else {
+				dataCollection = null;
+			}
+			CFBorderPane pane = getTabViewComponentsRolesListPane();
+			ICFBamJavaFXSchemaRolePaneList jpList = (ICFBamJavaFXSchemaRolePaneList)pane;
+			jpList.setJavaFXDataCollection( dataCollection );
+		}
+	}
+
+	public CFBorderPane getTabViewComponentsRolesListPane() {
+		if( tabViewComponentsRolesListPane == null ) {
+			ICFBamSchemaDefObj focus = (ICFBamSchemaDefObj)getJavaFXFocusAsSchemaDef();
+			Collection<ICFBamSchemaRoleObj> dataCollection;
+			if( focus != null ) {
+				dataCollection = focus.getOptionalComponentsRoles( javafxIsInitializing );
+			}
+			else {
+				dataCollection = null;
+			}
+			ICFBamSchemaDefObj javafxContainer;
+			if( ( focus != null ) && ( focus instanceof ICFBamSchemaDefObj ) ) {
+				javafxContainer = (ICFBamSchemaDefObj)focus;
+			}
+			else {
+				javafxContainer = null;
+			}
+			tabViewComponentsRolesListPane = javafxSchema.getSchemaRoleFactory().newListPane( cfFormManager, javafxContainer, null, dataCollection, new RefreshComponentsRolesList(), false );
+		}
+		return( tabViewComponentsRolesListPane );
+	}
+
 	public void setPaneMode( CFPane.PaneMode value ) {
 		CFPane.PaneMode oldMode = getPaneMode();
 		super.setPaneMode( value );
@@ -356,6 +406,9 @@ implements ICFBamJavaFXSchemaDefPaneCommon
 		}
 		if( tabViewComponentsTweaksListPane != null ) {
 			((ICFBamJavaFXTweakPaneCommon)tabViewComponentsTweaksListPane).setPaneMode( value );
+		}
+		if( tabViewComponentsRolesListPane != null ) {
+			((ICFBamJavaFXSchemaRolePaneCommon)tabViewComponentsRolesListPane).setPaneMode( value );
 		}
 	}
 }

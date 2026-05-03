@@ -283,9 +283,13 @@ public interface ICFBamJavaFXSchema
 
 	public ICFBamJavaFXRelationColFactory getRelationColFactory();
 
+	public ICFBamJavaFXRoleDefFactory getRoleDefFactory();
+
 	public ICFBamJavaFXSchemaDefFactory getSchemaDefFactory();
 
 	public ICFBamJavaFXSchemaRefFactory getSchemaRefFactory();
+
+	public ICFBamJavaFXSchemaRoleFactory getSchemaRoleFactory();
 
 	public ICFBamJavaFXSchemaTweakFactory getSchemaTweakFactory();
 

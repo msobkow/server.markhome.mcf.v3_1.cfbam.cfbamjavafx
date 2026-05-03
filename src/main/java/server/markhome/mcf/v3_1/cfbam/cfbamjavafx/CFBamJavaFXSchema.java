@@ -171,8 +171,10 @@ implements ICFBamJavaFXSchema
 	protected ICFBamJavaFXPopTopDepFactory factoryPopTopDep = null;
 	protected ICFBamJavaFXRelationFactory factoryRelation = null;
 	protected ICFBamJavaFXRelationColFactory factoryRelationCol = null;
+	protected ICFBamJavaFXRoleDefFactory factoryRoleDef = null;
 	protected ICFBamJavaFXSchemaDefFactory factorySchemaDef = null;
 	protected ICFBamJavaFXSchemaRefFactory factorySchemaRef = null;
+	protected ICFBamJavaFXSchemaRoleFactory factorySchemaRole = null;
 	protected ICFBamJavaFXSchemaTweakFactory factorySchemaTweak = null;
 	protected ICFBamJavaFXScopeFactory factoryScope = null;
 	protected ICFSecJavaFXSecClusGrpFactory factorySecClusGrp = null;
@@ -1100,6 +1102,13 @@ implements ICFBamJavaFXSchema
 		return( factoryRelationCol );
 	}
 
+	public ICFBamJavaFXRoleDefFactory getRoleDefFactory() {
+		if( factoryRoleDef == null ) {
+			factoryRoleDef = new CFBamJavaFXRoleDefFactory( this );
+		}
+		return( factoryRoleDef );
+	}
+
 	public ICFBamJavaFXSchemaDefFactory getSchemaDefFactory() {
 		if( factorySchemaDef == null ) {
 			factorySchemaDef = new CFBamJavaFXSchemaDefFactory( this );
@@ -1112,6 +1121,13 @@ implements ICFBamJavaFXSchema
 			factorySchemaRef = new CFBamJavaFXSchemaRefFactory( this );
 		}
 		return( factorySchemaRef );
+	}
+
+	public ICFBamJavaFXSchemaRoleFactory getSchemaRoleFactory() {
+		if( factorySchemaRole == null ) {
+			factorySchemaRole = new CFBamJavaFXSchemaRoleFactory( this );
+		}
+		return( factorySchemaRole );
 	}
 
 	public ICFBamJavaFXSchemaTweakFactory getSchemaTweakFactory() {
