@@ -297,19 +297,11 @@ public interface ICFBamJavaFXSchema
 
 	public ICFSecJavaFXSecClusGrpFactory getSecClusGrpFactory();
 
-	public ICFSecJavaFXSecClusGrpIncFactory getSecClusGrpIncFactory();
-
 	public ICFSecJavaFXSecClusGrpMembFactory getSecClusGrpMembFactory();
 
 	public ICFSecJavaFXSecClusRoleFactory getSecClusRoleFactory();
 
 	public ICFSecJavaFXSecClusRoleMembFactory getSecClusRoleMembFactory();
-
-	public ICFSecJavaFXSecRoleFactory getSecRoleFactory();
-
-	public ICFSecJavaFXSecRoleEnablesFactory getSecRoleEnablesFactory();
-
-	public ICFSecJavaFXSecRoleMembFactory getSecRoleMembFactory();
 
 	public ICFSecJavaFXSecSessionFactory getSecSessionFactory();
 
@@ -319,9 +311,13 @@ public interface ICFBamJavaFXSchema
 
 	public ICFSecJavaFXSecSysGrpMembFactory getSecSysGrpMembFactory();
 
-	public ICFSecJavaFXSecTentGrpFactory getSecTentGrpFactory();
+	public ICFSecJavaFXSecSysRoleFactory getSecSysRoleFactory();
 
-	public ICFSecJavaFXSecTentGrpIncFactory getSecTentGrpIncFactory();
+	public ICFSecJavaFXSecSysRoleEnablesFactory getSecSysRoleEnablesFactory();
+
+	public ICFSecJavaFXSecSysRoleMembFactory getSecSysRoleMembFactory();
+
+	public ICFSecJavaFXSecTentGrpFactory getSecTentGrpFactory();
 
 	public ICFSecJavaFXSecTentGrpMembFactory getSecTentGrpMembFactory();
 
