@@ -94,6 +94,7 @@ implements ICFBamJavaFXSchemaRolePaneList
 	protected TableColumn<ICFBamSchemaRoleObj, CFLibDbKeyHash256> tableColumnId = null;
 	protected TableColumn<ICFBamSchemaRoleObj, String> tableColumnName = null;
 	protected TableColumn<ICFBamSchemaRoleObj, String> tableColumnMembershipString = null;
+	protected TableColumn<ICFBamSchemaRoleObj, ICFBamSchema.RoleScopeEnum> tableColumnRoleScope = null;
 	protected TableColumn<ICFBamSchemaRoleObj, ICFBamSchemaDefObj> tableColumnLookupDefSchema = null;
 	protected TableView<ICFBamSchemaRoleObj> dataTable = null;
 	protected CFHBox hboxMenu = null;
@@ -210,6 +211,29 @@ implements ICFBamJavaFXSchemaRolePaneList
 			}
 		});
 		dataTable.getColumns().add( tableColumnMembershipString );
+		tableColumnRoleScope = new TableColumn<ICFBamSchemaRoleObj,ICFBamSchema.RoleScopeEnum>( "Role Scope" );
+		tableColumnRoleScope.setCellValueFactory( new Callback<CellDataFeatures<ICFBamSchemaRoleObj,ICFBamSchema.RoleScopeEnum>,ObservableValue<ICFBamSchema.RoleScopeEnum> >() {
+			public ObservableValue<ICFBamSchema.RoleScopeEnum> call( CellDataFeatures<ICFBamSchemaRoleObj, ICFBamSchema.RoleScopeEnum> p ) {
+				ICFBamSchemaRoleObj obj = p.getValue();
+				if( obj == null ) {
+					return( null );
+				}
+				else {
+					ICFBamSchema.RoleScopeEnum value = obj.getRequiredRoleScope();
+					ReadOnlyObjectWrapper<ICFBamSchema.RoleScopeEnum> observable = new ReadOnlyObjectWrapper<ICFBamSchema.RoleScopeEnum>();
+					observable.setValue( value );
+					return( observable );
+				}
+			}
+		});
+		tableColumnRoleScope.setCellFactory( new Callback<TableColumn<ICFBamSchemaRoleObj,ICFBamSchema.RoleScopeEnum>,TableCell<ICFBamSchemaRoleObj,ICFBamSchema.RoleScopeEnum>>() {
+			@Override public TableCell<ICFBamSchemaRoleObj,ICFBamSchema.RoleScopeEnum> call(
+				TableColumn<ICFBamSchemaRoleObj,ICFBamSchema.RoleScopeEnum> arg)
+			{
+				return new CFEnumTableCell<ICFBamSchemaRoleObj,ICFBamSchema.RoleScopeEnum>();
+			}
+		});
+		dataTable.getColumns().add( tableColumnRoleScope );
 		tableColumnLookupDefSchema = new TableColumn<ICFBamSchemaRoleObj, ICFBamSchemaDefObj>( "Defining Schema Definition" );
 		tableColumnLookupDefSchema.setCellValueFactory( new Callback<CellDataFeatures<ICFBamSchemaRoleObj,ICFBamSchemaDefObj>,ObservableValue<ICFBamSchemaDefObj> >() {
 			public ObservableValue<ICFBamSchemaDefObj> call( CellDataFeatures<ICFBamSchemaRoleObj, ICFBamSchemaDefObj> p ) {

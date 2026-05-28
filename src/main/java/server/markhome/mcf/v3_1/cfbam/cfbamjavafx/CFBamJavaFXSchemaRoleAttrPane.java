@@ -88,6 +88,12 @@ implements ICFBamJavaFXSchemaRolePaneCommon
 	protected ICFBamJavaFXSchema javafxSchema = null;
 	boolean javafxIsInitializing = true;
 
+	protected ObservableList<String> observableListOfRoleScope =
+		FXCollections.observableArrayList(
+			"SysRole",
+			"ClusRole",
+			"TentRole" );
+
 	protected class DefSchemaCFLabel
 		extends CFLabel
 	{
@@ -232,6 +238,24 @@ implements ICFBamJavaFXSchemaRolePaneCommon
 		}
 	}
 
+	protected class RoleScopeCFLabel
+		extends CFLabel
+	{
+		public RoleScopeCFLabel() {
+			super();
+			setText(Inz.s("cfbam.javafx.SchemaRole.AttrPane.RoleScope.EffLabel"));
+		}
+	}
+
+	protected class RoleScopeEditor
+		extends ComboBox<String>
+	{
+		public RoleScopeEditor() {
+			super();
+			setItems( observableListOfRoleScope );
+		}
+	}
+
 	protected ICFBamSchemaDefObj javafxLookupDefSchemaObj = null;
 	protected DefSchemaCFLabel javafxLabelLookupDefSchema = null;
 	protected DefSchemaCFReferenceEditor javafxReferenceLookupDefSchema = null;
@@ -241,6 +265,8 @@ implements ICFBamJavaFXSchemaRolePaneCommon
 	protected NameEditor javafxEditorName = null;
 	protected MembershipStringCFLabel javafxLabelMembershipString = null;
 	protected MembershipStringEditor javafxEditorMembershipString = null;
+	protected RoleScopeCFLabel javafxLabelRoleScope = null;
+	protected RoleScopeEditor javafxEditorRoleScope = null;
 
 	public CFBamJavaFXSchemaRoleAttrPane( ICFFormManager formManager, ICFBamJavaFXSchema argSchema, ICFBamSchemaRoleObj argFocus ) {
 		super();
@@ -313,6 +339,17 @@ implements ICFBamJavaFXSchemaRolePaneCommon
 		gridRow ++;
 
 		ctrl = getJavaFXEditorMembershipString();
+		setHalignment( ctrl, HPos.LEFT );
+		add( ctrl, 0, gridRow );
+		gridRow ++;
+
+		label = getJavaFXLabelRoleScope();
+		setHalignment( label, HPos.LEFT );
+		setValignment( label, VPos.BOTTOM );
+		add( label, 0, gridRow );
+		gridRow ++;
+
+		ctrl = getJavaFXEditorRoleScope();
 		setHalignment( ctrl, HPos.LEFT );
 		add( ctrl, 0, gridRow );
 		gridRow ++;
@@ -467,6 +504,28 @@ implements ICFBamJavaFXSchemaRolePaneCommon
 		javafxEditorMembershipString = value;
 	}
 
+	public RoleScopeCFLabel getJavaFXLabelRoleScope() {
+		if( javafxLabelRoleScope == null ) {
+			javafxLabelRoleScope = new RoleScopeCFLabel();
+		}
+		return( javafxLabelRoleScope );
+	}
+
+	public void setJavaFXLabelRoleScope( RoleScopeCFLabel value ) {
+		javafxLabelRoleScope = value;
+	}
+
+	public RoleScopeEditor getJavaFXEditorRoleScope() {
+		if( javafxEditorRoleScope == null ) {
+			javafxEditorRoleScope = new RoleScopeEditor();
+		}
+		return( javafxEditorRoleScope );
+	}
+
+	public void setJavaFXEditorRoleScope( RoleScopeEditor value ) {
+		javafxEditorRoleScope = value;
+	}
+
 	public void populateFields()
 	{
 		ICFBamSchemaRoleObj popObj = getEffJavaFXFocus();
@@ -502,6 +561,16 @@ implements ICFBamJavaFXSchemaRolePaneCommon
 		}
 		else {
 			getJavaFXEditorMembershipString().setTextValue( popObj.getRequiredMembershipString() );
+		}
+
+		if( popObj == null ) {
+			getJavaFXEditorRoleScope().setValue( null );
+		}
+		else {
+			getJavaFXEditorRoleScope().setValue(
+				( popObj.getRequiredRoleScope() == null )
+					? null
+					: popObj.getRequiredRoleScope().toString() );
 		}
 	}
 
@@ -539,6 +608,10 @@ implements ICFBamJavaFXSchemaRolePaneCommon
 		else {
 			editObj.setRequiredMembershipString( getJavaFXEditorMembershipString().getTextValue() );
 		}
+
+		String strrolescope = getJavaFXEditorRoleScope().getValue();
+		ICFBamSchema.RoleScopeEnum currolescope = ICFBamSchema.parseRoleScopeEnum( "RoleScope", strrolescope );
+		editObj.setRequiredRoleScope( currolescope );
 	}
 
 	public void setPaneMode( CFPane.PaneMode value ) {
@@ -835,6 +908,9 @@ implements ICFBamJavaFXSchemaRolePaneCommon
 		}
 		if( javafxEditorMembershipString != null ) {
 			javafxEditorMembershipString.setDisable( ! isEditing );
+		}
+		if( javafxEditorRoleScope != null ) {
+			javafxEditorRoleScope.setDisable( ! isEditing );
 		}
 	}
 }
