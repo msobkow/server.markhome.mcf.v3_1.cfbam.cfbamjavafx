@@ -103,7 +103,8 @@ implements ICFBamJavaFXRoleDefPaneList
 	protected TableColumn<ICFBamRoleDefObj,String> tableColumnObjKind = null;
 	protected TableColumn<ICFBamRoleDefObj, CFLibDbKeyHash256> tableColumnId = null;
 	protected TableColumn<ICFBamRoleDefObj, String> tableColumnName = null;
-	protected TableColumn<ICFBamRoleDefObj, String> tableColumnMembershipString = null;
+	protected TableColumn<ICFBamRoleDefObj, String> tableColumnEnables = null;
+	protected TableColumn<ICFBamRoleDefObj, String> tableColumnIncludes = null;
 	protected TableColumn<ICFBamRoleDefObj, ICFBamSchemaDefObj> tableColumnLookupDefSchema = null;
 
 	public final String S_ColumnNames[] = { "Name" };
@@ -262,29 +263,52 @@ implements ICFBamJavaFXRoleDefPaneList
 			}
 		});
 		dataTable.getColumns().add( tableColumnName );
-		tableColumnMembershipString = new TableColumn<ICFBamRoleDefObj,String>( "Membership" );
-		tableColumnMembershipString.setCellValueFactory( new Callback<CellDataFeatures<ICFBamRoleDefObj,String>,ObservableValue<String> >() {
+		tableColumnEnables = new TableColumn<ICFBamRoleDefObj,String>( "Enables" );
+		tableColumnEnables.setCellValueFactory( new Callback<CellDataFeatures<ICFBamRoleDefObj,String>,ObservableValue<String> >() {
 			public ObservableValue<String> call( CellDataFeatures<ICFBamRoleDefObj, String> p ) {
 				ICFBamRoleDefObj obj = p.getValue();
 				if( obj == null ) {
 					return( null );
 				}
 				else {
-					String value = obj.getRequiredMembershipString();
+					String value = obj.getRequiredEnables();
 					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
 					observable.setValue( value );
 					return( observable );
 				}
 			}
 		});
-		tableColumnMembershipString.setCellFactory( new Callback<TableColumn<ICFBamRoleDefObj,String>,TableCell<ICFBamRoleDefObj,String>>() {
+		tableColumnEnables.setCellFactory( new Callback<TableColumn<ICFBamRoleDefObj,String>,TableCell<ICFBamRoleDefObj,String>>() {
 			@Override public TableCell<ICFBamRoleDefObj,String> call(
 				TableColumn<ICFBamRoleDefObj,String> arg)
 			{
 				return new CFTextTableCell<ICFBamRoleDefObj>();
 			}
 		});
-		dataTable.getColumns().add( tableColumnMembershipString );
+		dataTable.getColumns().add( tableColumnEnables );
+		tableColumnIncludes = new TableColumn<ICFBamRoleDefObj,String>( "Includes" );
+		tableColumnIncludes.setCellValueFactory( new Callback<CellDataFeatures<ICFBamRoleDefObj,String>,ObservableValue<String> >() {
+			public ObservableValue<String> call( CellDataFeatures<ICFBamRoleDefObj, String> p ) {
+				ICFBamRoleDefObj obj = p.getValue();
+				if( obj == null ) {
+					return( null );
+				}
+				else {
+					String value = obj.getRequiredIncludes();
+					ReadOnlyObjectWrapper<String> observable = new ReadOnlyObjectWrapper<String>();
+					observable.setValue( value );
+					return( observable );
+				}
+			}
+		});
+		tableColumnIncludes.setCellFactory( new Callback<TableColumn<ICFBamRoleDefObj,String>,TableCell<ICFBamRoleDefObj,String>>() {
+			@Override public TableCell<ICFBamRoleDefObj,String> call(
+				TableColumn<ICFBamRoleDefObj,String> arg)
+			{
+				return new CFTextTableCell<ICFBamRoleDefObj>();
+			}
+		});
+		dataTable.getColumns().add( tableColumnIncludes );
 		tableColumnLookupDefSchema = new TableColumn<ICFBamRoleDefObj, ICFBamSchemaDefObj>( "Defining Schema Definition" );
 		tableColumnLookupDefSchema.setCellValueFactory( new Callback<CellDataFeatures<ICFBamRoleDefObj,ICFBamSchemaDefObj>,ObservableValue<ICFBamSchemaDefObj> >() {
 			public ObservableValue<ICFBamSchemaDefObj> call( CellDataFeatures<ICFBamRoleDefObj, ICFBamSchemaDefObj> p ) {

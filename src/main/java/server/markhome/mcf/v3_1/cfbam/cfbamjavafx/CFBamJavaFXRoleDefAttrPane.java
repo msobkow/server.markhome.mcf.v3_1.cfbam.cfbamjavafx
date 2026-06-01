@@ -211,22 +211,43 @@ implements ICFBamJavaFXRoleDefPaneCommon
 		}
 	}
 
-	protected class MembershipStringCFLabel
+	protected class EnablesCFLabel
 		extends CFLabel
 	{
-		public MembershipStringCFLabel() {
+		public EnablesCFLabel() {
 			super();
-			setText(Inz.s("cfbam.javafx.RoleDef.AttrPane.MembershipString.EffLabel"));
+			setText(Inz.s("cfbam.javafx.RoleDef.AttrPane.Enables.EffLabel"));
 		}
 	}
 
-	protected class MembershipStringEditor
+	protected class EnablesEditor
 		extends CFTextEditor
 	{
-		public MembershipStringEditor() {
+		public EnablesEditor() {
 			super();
 			setMaxLen( 2000000 );
-			setFieldNameInzTag( "cfbam.javafx.RoleDef.AttrPane.MembershipString.EffLabel" );
+			setFieldNameInzTag( "cfbam.javafx.RoleDef.AttrPane.Enables.EffLabel" );
+			setPrefHeight( 10 * 20 );
+			setMinHeight( 10 * 20 );
+		}
+	}
+
+	protected class IncludesCFLabel
+		extends CFLabel
+	{
+		public IncludesCFLabel() {
+			super();
+			setText(Inz.s("cfbam.javafx.RoleDef.AttrPane.Includes.EffLabel"));
+		}
+	}
+
+	protected class IncludesEditor
+		extends CFTextEditor
+	{
+		public IncludesEditor() {
+			super();
+			setMaxLen( 2000000 );
+			setFieldNameInzTag( "cfbam.javafx.RoleDef.AttrPane.Includes.EffLabel" );
 			setPrefHeight( 10 * 20 );
 			setMinHeight( 10 * 20 );
 		}
@@ -239,8 +260,10 @@ implements ICFBamJavaFXRoleDefPaneCommon
 	protected IdEditor javafxEditorId = null;
 	protected NameCFLabel javafxLabelName = null;
 	protected NameEditor javafxEditorName = null;
-	protected MembershipStringCFLabel javafxLabelMembershipString = null;
-	protected MembershipStringEditor javafxEditorMembershipString = null;
+	protected EnablesCFLabel javafxLabelEnables = null;
+	protected EnablesEditor javafxEditorEnables = null;
+	protected IncludesCFLabel javafxLabelIncludes = null;
+	protected IncludesEditor javafxEditorIncludes = null;
 
 	public CFBamJavaFXRoleDefAttrPane( ICFFormManager formManager, ICFBamJavaFXSchema argSchema, ICFBamRoleDefObj argFocus ) {
 		super();
@@ -306,13 +329,24 @@ implements ICFBamJavaFXRoleDefPaneCommon
 		add( ctrl, 0, gridRow );
 		gridRow ++;
 
-		label = getJavaFXLabelMembershipString();
+		label = getJavaFXLabelEnables();
 		setHalignment( label, HPos.LEFT );
 		setValignment( label, VPos.BOTTOM );
 		add( label, 0, gridRow );
 		gridRow ++;
 
-		ctrl = getJavaFXEditorMembershipString();
+		ctrl = getJavaFXEditorEnables();
+		setHalignment( ctrl, HPos.LEFT );
+		add( ctrl, 0, gridRow );
+		gridRow ++;
+
+		label = getJavaFXLabelIncludes();
+		setHalignment( label, HPos.LEFT );
+		setValignment( label, VPos.BOTTOM );
+		add( label, 0, gridRow );
+		gridRow ++;
+
+		ctrl = getJavaFXEditorIncludes();
 		setHalignment( ctrl, HPos.LEFT );
 		add( ctrl, 0, gridRow );
 		gridRow ++;
@@ -445,26 +479,48 @@ implements ICFBamJavaFXRoleDefPaneCommon
 		javafxEditorName = value;
 	}
 
-	public MembershipStringCFLabel getJavaFXLabelMembershipString() {
-		if( javafxLabelMembershipString == null ) {
-			javafxLabelMembershipString = new MembershipStringCFLabel();
+	public EnablesCFLabel getJavaFXLabelEnables() {
+		if( javafxLabelEnables == null ) {
+			javafxLabelEnables = new EnablesCFLabel();
 		}
-		return( javafxLabelMembershipString );
+		return( javafxLabelEnables );
 	}
 
-	public void setJavaFXLabelMembershipString( MembershipStringCFLabel value ) {
-		javafxLabelMembershipString = value;
+	public void setJavaFXLabelEnables( EnablesCFLabel value ) {
+		javafxLabelEnables = value;
 	}
 
-	public MembershipStringEditor getJavaFXEditorMembershipString() {
-		if( javafxEditorMembershipString == null ) {
-			javafxEditorMembershipString = new MembershipStringEditor();
+	public EnablesEditor getJavaFXEditorEnables() {
+		if( javafxEditorEnables == null ) {
+			javafxEditorEnables = new EnablesEditor();
 		}
-		return( javafxEditorMembershipString );
+		return( javafxEditorEnables );
 	}
 
-	public void setJavaFXEditorMembershipString( MembershipStringEditor value ) {
-		javafxEditorMembershipString = value;
+	public void setJavaFXEditorEnables( EnablesEditor value ) {
+		javafxEditorEnables = value;
+	}
+
+	public IncludesCFLabel getJavaFXLabelIncludes() {
+		if( javafxLabelIncludes == null ) {
+			javafxLabelIncludes = new IncludesCFLabel();
+		}
+		return( javafxLabelIncludes );
+	}
+
+	public void setJavaFXLabelIncludes( IncludesCFLabel value ) {
+		javafxLabelIncludes = value;
+	}
+
+	public IncludesEditor getJavaFXEditorIncludes() {
+		if( javafxEditorIncludes == null ) {
+			javafxEditorIncludes = new IncludesEditor();
+		}
+		return( javafxEditorIncludes );
+	}
+
+	public void setJavaFXEditorIncludes( IncludesEditor value ) {
+		javafxEditorIncludes = value;
 	}
 
 	public void populateFields()
@@ -498,10 +554,17 @@ implements ICFBamJavaFXRoleDefPaneCommon
 		}
 
 		if( popObj == null ) {
-			getJavaFXEditorMembershipString().setTextValue( null );
+			getJavaFXEditorEnables().setTextValue( null );
 		}
 		else {
-			getJavaFXEditorMembershipString().setTextValue( popObj.getRequiredMembershipString() );
+			getJavaFXEditorEnables().setTextValue( popObj.getRequiredEnables() );
+		}
+
+		if( popObj == null ) {
+			getJavaFXEditorIncludes().setTextValue( null );
+		}
+		else {
+			getJavaFXEditorIncludes().setTextValue( popObj.getRequiredIncludes() );
 		}
 	}
 
@@ -533,11 +596,18 @@ implements ICFBamJavaFXRoleDefPaneCommon
 			editObj.setRequiredName( getJavaFXEditorName().getStringValue() );
 		}
 
-		if( getJavaFXEditorMembershipString().getTextValue() == null ) {
-			editObj.setRequiredMembershipString( "" );
+		if( getJavaFXEditorEnables().getTextValue() == null ) {
+			editObj.setRequiredEnables( "" );
 		}
 		else {
-			editObj.setRequiredMembershipString( getJavaFXEditorMembershipString().getTextValue() );
+			editObj.setRequiredEnables( getJavaFXEditorEnables().getTextValue() );
+		}
+
+		if( getJavaFXEditorIncludes().getTextValue() == null ) {
+			editObj.setRequiredIncludes( "" );
+		}
+		else {
+			editObj.setRequiredIncludes( getJavaFXEditorIncludes().getTextValue() );
 		}
 	}
 
@@ -833,8 +903,11 @@ implements ICFBamJavaFXRoleDefPaneCommon
 		if( javafxEditorName != null ) {
 			javafxEditorName.setDisable( ! isEditing );
 		}
-		if( javafxEditorMembershipString != null ) {
-			javafxEditorMembershipString.setDisable( ! isEditing );
+		if( javafxEditorEnables != null ) {
+			javafxEditorEnables.setDisable( ! isEditing );
+		}
+		if( javafxEditorIncludes != null ) {
+			javafxEditorIncludes.setDisable( ! isEditing );
 		}
 	}
 }
