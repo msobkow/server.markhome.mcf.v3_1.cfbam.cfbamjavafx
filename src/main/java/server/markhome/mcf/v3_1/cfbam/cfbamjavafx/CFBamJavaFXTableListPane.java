@@ -112,6 +112,7 @@ implements ICFBamJavaFXTablePaneList
 	protected TableColumn<ICFBamTableObj, Boolean> tableColumnIsServerOnly = null;
 	protected TableColumn<ICFBamTableObj, ICFBamSchema.LoaderBehaviourEnum> tableColumnLoaderBehaviour = null;
 	protected TableColumn<ICFBamTableObj, ICFBamSchema.SecScopeEnum> tableColumnSecScope = null;
+	protected TableColumn<ICFBamTableObj, ICFBamSchema.CodeVisibilityEnum> tableColumnCodeVis = null;
 	protected TableColumn<ICFBamTableObj, ICFBamSchemaDefObj> tableColumnLookupDefSchema = null;
 	protected TableColumn<ICFBamTableObj, ICFBamIndexObj> tableColumnLookupLookupIndex = null;
 	protected TableColumn<ICFBamTableObj, ICFBamIndexObj> tableColumnLookupAltIndex = null;
@@ -579,6 +580,29 @@ implements ICFBamJavaFXTablePaneList
 			}
 		});
 		dataTable.getColumns().add( tableColumnSecScope );
+		tableColumnCodeVis = new TableColumn<ICFBamTableObj,ICFBamSchema.CodeVisibilityEnum>( "Table Code Visibility" );
+		tableColumnCodeVis.setCellValueFactory( new Callback<CellDataFeatures<ICFBamTableObj,ICFBamSchema.CodeVisibilityEnum>,ObservableValue<ICFBamSchema.CodeVisibilityEnum> >() {
+			public ObservableValue<ICFBamSchema.CodeVisibilityEnum> call( CellDataFeatures<ICFBamTableObj, ICFBamSchema.CodeVisibilityEnum> p ) {
+				ICFBamTableObj obj = p.getValue();
+				if( obj == null ) {
+					return( null );
+				}
+				else {
+					ICFBamSchema.CodeVisibilityEnum value = obj.getRequiredCodeVis();
+					ReadOnlyObjectWrapper<ICFBamSchema.CodeVisibilityEnum> observable = new ReadOnlyObjectWrapper<ICFBamSchema.CodeVisibilityEnum>();
+					observable.setValue( value );
+					return( observable );
+				}
+			}
+		});
+		tableColumnCodeVis.setCellFactory( new Callback<TableColumn<ICFBamTableObj,ICFBamSchema.CodeVisibilityEnum>,TableCell<ICFBamTableObj,ICFBamSchema.CodeVisibilityEnum>>() {
+			@Override public TableCell<ICFBamTableObj,ICFBamSchema.CodeVisibilityEnum> call(
+				TableColumn<ICFBamTableObj,ICFBamSchema.CodeVisibilityEnum> arg)
+			{
+				return new CFEnumTableCell<ICFBamTableObj,ICFBamSchema.CodeVisibilityEnum>();
+			}
+		});
+		dataTable.getColumns().add( tableColumnCodeVis );
 		tableColumnLookupDefSchema = new TableColumn<ICFBamTableObj, ICFBamSchemaDefObj>( "Defining Schema Definition" );
 		tableColumnLookupDefSchema.setCellValueFactory( new Callback<CellDataFeatures<ICFBamTableObj,ICFBamSchemaDefObj>,ObservableValue<ICFBamSchemaDefObj> >() {
 			public ObservableValue<ICFBamSchemaDefObj> call( CellDataFeatures<ICFBamTableObj, ICFBamSchemaDefObj> p ) {

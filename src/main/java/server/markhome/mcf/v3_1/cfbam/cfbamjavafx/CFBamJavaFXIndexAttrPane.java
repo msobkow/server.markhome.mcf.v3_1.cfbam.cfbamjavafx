@@ -88,6 +88,12 @@ implements ICFBamJavaFXIndexPaneCommon
 	protected ICFBamJavaFXSchema javafxSchema = null;
 	boolean javafxIsInitializing = true;
 
+	protected ObservableList<String> observableListOfCodeVis =
+		FXCollections.observableArrayList(
+			"Public",
+			"Protected",
+			"Private" );
+
 	protected class DefSchemaCFLabel
 		extends CFLabel
 	{
@@ -363,6 +369,24 @@ implements ICFBamJavaFXIndexPaneCommon
 		}
 	}
 
+	protected class CodeVisCFLabel
+		extends CFLabel
+	{
+		public CodeVisCFLabel() {
+			super();
+			setText(Inz.s("cfbam.javafx.Index.AttrPane.CodeVis.EffLabel"));
+		}
+	}
+
+	protected class CodeVisEditor
+		extends ComboBox<String>
+	{
+		public CodeVisEditor() {
+			super();
+			setItems( observableListOfCodeVis );
+		}
+	}
+
 	protected ICFBamSchemaDefObj javafxLookupDefSchemaObj = null;
 	protected DefSchemaCFLabel javafxLabelLookupDefSchema = null;
 	protected DefSchemaCFReferenceEditor javafxReferenceLookupDefSchema = null;
@@ -386,6 +410,8 @@ implements ICFBamJavaFXIndexPaneCommon
 	protected IsUniqueEditor javafxEditorIsUnique = null;
 	protected IsDbMappedCFLabel javafxLabelIsDbMapped = null;
 	protected IsDbMappedEditor javafxEditorIsDbMapped = null;
+	protected CodeVisCFLabel javafxLabelCodeVis = null;
+	protected CodeVisEditor javafxEditorCodeVis = null;
 
 	public CFBamJavaFXIndexAttrPane( ICFFormManager formManager, ICFBamJavaFXSchema argSchema, ICFBamIndexObj argFocus ) {
 		super();
@@ -535,6 +561,17 @@ implements ICFBamJavaFXIndexPaneCommon
 		gridRow ++;
 
 		ctrl = getJavaFXEditorIsDbMapped();
+		setHalignment( ctrl, HPos.LEFT );
+		add( ctrl, 0, gridRow );
+		gridRow ++;
+
+		label = getJavaFXLabelCodeVis();
+		setHalignment( label, HPos.LEFT );
+		setValignment( label, VPos.BOTTOM );
+		add( label, 0, gridRow );
+		gridRow ++;
+
+		ctrl = getJavaFXEditorCodeVis();
 		setHalignment( ctrl, HPos.LEFT );
 		add( ctrl, 0, gridRow );
 		gridRow ++;
@@ -843,6 +880,28 @@ implements ICFBamJavaFXIndexPaneCommon
 		javafxEditorIsDbMapped = value;
 	}
 
+	public CodeVisCFLabel getJavaFXLabelCodeVis() {
+		if( javafxLabelCodeVis == null ) {
+			javafxLabelCodeVis = new CodeVisCFLabel();
+		}
+		return( javafxLabelCodeVis );
+	}
+
+	public void setJavaFXLabelCodeVis( CodeVisCFLabel value ) {
+		javafxLabelCodeVis = value;
+	}
+
+	public CodeVisEditor getJavaFXEditorCodeVis() {
+		if( javafxEditorCodeVis == null ) {
+			javafxEditorCodeVis = new CodeVisEditor();
+		}
+		return( javafxEditorCodeVis );
+	}
+
+	public void setJavaFXEditorCodeVis( CodeVisEditor value ) {
+		javafxEditorCodeVis = value;
+	}
+
 	public void populateFields()
 	{
 		ICFBamIndexObj popObj = getEffJavaFXFocus();
@@ -928,6 +987,16 @@ implements ICFBamJavaFXIndexPaneCommon
 		else {
 			getJavaFXEditorIsDbMapped().setBooleanValue( popObj.getRequiredIsDbMapped() );
 		}
+
+		if( popObj == null ) {
+			getJavaFXEditorCodeVis().setValue( null );
+		}
+		else {
+			getJavaFXEditorCodeVis().setValue(
+				( popObj.getRequiredCodeVis() == null )
+					? null
+					: popObj.getRequiredCodeVis().toString() );
+		}
 	}
 
 	public void postFields()
@@ -1003,6 +1072,10 @@ implements ICFBamJavaFXIndexPaneCommon
 		editObj.setRequiredIsUnique( getJavaFXEditorIsUnique().getBooleanValue() );
 
 		editObj.setRequiredIsDbMapped( getJavaFXEditorIsDbMapped().getBooleanValue() );
+
+		String strcodevis = getJavaFXEditorCodeVis().getValue();
+		ICFBamSchema.CodeVisibilityEnum curcodevis = ICFBamSchema.parseCodeVisibilityEnum( "CodeVis", strcodevis );
+		editObj.setRequiredCodeVis( curcodevis );
 	}
 
 	public void setPaneMode( CFPane.PaneMode value ) {
@@ -1320,6 +1393,9 @@ implements ICFBamJavaFXIndexPaneCommon
 		}
 		if( javafxEditorIsDbMapped != null ) {
 			javafxEditorIsDbMapped.setDisable( ! isEditing );
+		}
+		if( javafxEditorCodeVis != null ) {
+			javafxEditorCodeVis.setDisable( ! isEditing );
 		}
 	}
 }

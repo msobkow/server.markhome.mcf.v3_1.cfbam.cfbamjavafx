@@ -113,6 +113,7 @@ implements ICFBamJavaFXServerMethodPaneList
 	protected TableColumn<ICFBamServerMethodObj, String> tableColumnSuffix = null;
 	protected TableColumn<ICFBamServerMethodObj, Boolean> tableColumnIsInstanceMethod = null;
 	protected TableColumn<ICFBamServerMethodObj, Boolean> tableColumnIsServerOnly = null;
+	protected TableColumn<ICFBamServerMethodObj, ICFBamSchema.CodeVisibilityEnum> tableColumnCodeVis = null;
 	protected TableColumn<ICFBamServerMethodObj, String> tableColumnJMethodBody = null;
 	protected TableColumn<ICFBamServerMethodObj, String> tableColumnCppMethodBody = null;
 	protected TableColumn<ICFBamServerMethodObj, String> tableColumnCsMethodBody = null;
@@ -437,6 +438,29 @@ implements ICFBamJavaFXServerMethodPaneList
 			}
 		});
 		dataTable.getColumns().add( tableColumnIsServerOnly );
+		tableColumnCodeVis = new TableColumn<ICFBamServerMethodObj,ICFBamSchema.CodeVisibilityEnum>( "Method Code Visibility" );
+		tableColumnCodeVis.setCellValueFactory( new Callback<CellDataFeatures<ICFBamServerMethodObj,ICFBamSchema.CodeVisibilityEnum>,ObservableValue<ICFBamSchema.CodeVisibilityEnum> >() {
+			public ObservableValue<ICFBamSchema.CodeVisibilityEnum> call( CellDataFeatures<ICFBamServerMethodObj, ICFBamSchema.CodeVisibilityEnum> p ) {
+				ICFBamServerMethodObj obj = p.getValue();
+				if( obj == null ) {
+					return( null );
+				}
+				else {
+					ICFBamSchema.CodeVisibilityEnum value = obj.getRequiredCodeVis();
+					ReadOnlyObjectWrapper<ICFBamSchema.CodeVisibilityEnum> observable = new ReadOnlyObjectWrapper<ICFBamSchema.CodeVisibilityEnum>();
+					observable.setValue( value );
+					return( observable );
+				}
+			}
+		});
+		tableColumnCodeVis.setCellFactory( new Callback<TableColumn<ICFBamServerMethodObj,ICFBamSchema.CodeVisibilityEnum>,TableCell<ICFBamServerMethodObj,ICFBamSchema.CodeVisibilityEnum>>() {
+			@Override public TableCell<ICFBamServerMethodObj,ICFBamSchema.CodeVisibilityEnum> call(
+				TableColumn<ICFBamServerMethodObj,ICFBamSchema.CodeVisibilityEnum> arg)
+			{
+				return new CFEnumTableCell<ICFBamServerMethodObj,ICFBamSchema.CodeVisibilityEnum>();
+			}
+		});
+		dataTable.getColumns().add( tableColumnCodeVis );
 		tableColumnJMethodBody = new TableColumn<ICFBamServerMethodObj,String>( "Java Method Body" );
 		tableColumnJMethodBody.setCellValueFactory( new Callback<CellDataFeatures<ICFBamServerMethodObj,String>,ObservableValue<String> >() {
 			public ObservableValue<String> call( CellDataFeatures<ICFBamServerMethodObj, String> p ) {

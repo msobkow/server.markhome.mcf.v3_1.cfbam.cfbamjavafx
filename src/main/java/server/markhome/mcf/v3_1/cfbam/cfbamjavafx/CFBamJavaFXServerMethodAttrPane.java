@@ -88,6 +88,12 @@ implements ICFBamJavaFXServerMethodPaneCommon
 	protected ICFBamJavaFXSchema javafxSchema = null;
 	boolean javafxIsInitializing = true;
 
+	protected ObservableList<String> observableListOfCodeVis =
+		FXCollections.observableArrayList(
+			"Public",
+			"Protected",
+			"Private" );
+
 	protected class DefSchemaCFLabel
 		extends CFLabel
 	{
@@ -344,6 +350,24 @@ implements ICFBamJavaFXServerMethodPaneCommon
 		}
 	}
 
+	protected class CodeVisCFLabel
+		extends CFLabel
+	{
+		public CodeVisCFLabel() {
+			super();
+			setText(Inz.s("cfbam.javafx.ServerMethod.AttrPane.CodeVis.EffLabel"));
+		}
+	}
+
+	protected class CodeVisEditor
+		extends ComboBox<String>
+	{
+		public CodeVisEditor() {
+			super();
+			setItems( observableListOfCodeVis );
+		}
+	}
+
 	protected class JMethodBodyCFLabel
 		extends CFLabel
 	{
@@ -428,6 +452,8 @@ implements ICFBamJavaFXServerMethodPaneCommon
 	protected IsInstanceMethodEditor javafxEditorIsInstanceMethod = null;
 	protected IsServerOnlyCFLabel javafxLabelIsServerOnly = null;
 	protected IsServerOnlyEditor javafxEditorIsServerOnly = null;
+	protected CodeVisCFLabel javafxLabelCodeVis = null;
+	protected CodeVisEditor javafxEditorCodeVis = null;
 	protected JMethodBodyCFLabel javafxLabelJMethodBody = null;
 	protected JMethodBodyEditor javafxEditorJMethodBody = null;
 	protected CppMethodBodyCFLabel javafxLabelCppMethodBody = null;
@@ -572,6 +598,17 @@ implements ICFBamJavaFXServerMethodPaneCommon
 		gridRow ++;
 
 		ctrl = getJavaFXEditorIsServerOnly();
+		setHalignment( ctrl, HPos.LEFT );
+		add( ctrl, 0, gridRow );
+		gridRow ++;
+
+		label = getJavaFXLabelCodeVis();
+		setHalignment( label, HPos.LEFT );
+		setValignment( label, VPos.BOTTOM );
+		add( label, 0, gridRow );
+		gridRow ++;
+
+		ctrl = getJavaFXEditorCodeVis();
 		setHalignment( ctrl, HPos.LEFT );
 		add( ctrl, 0, gridRow );
 		gridRow ++;
@@ -891,6 +928,28 @@ implements ICFBamJavaFXServerMethodPaneCommon
 		javafxEditorIsServerOnly = value;
 	}
 
+	public CodeVisCFLabel getJavaFXLabelCodeVis() {
+		if( javafxLabelCodeVis == null ) {
+			javafxLabelCodeVis = new CodeVisCFLabel();
+		}
+		return( javafxLabelCodeVis );
+	}
+
+	public void setJavaFXLabelCodeVis( CodeVisCFLabel value ) {
+		javafxLabelCodeVis = value;
+	}
+
+	public CodeVisEditor getJavaFXEditorCodeVis() {
+		if( javafxEditorCodeVis == null ) {
+			javafxEditorCodeVis = new CodeVisEditor();
+		}
+		return( javafxEditorCodeVis );
+	}
+
+	public void setJavaFXEditorCodeVis( CodeVisEditor value ) {
+		javafxEditorCodeVis = value;
+	}
+
 	public JMethodBodyCFLabel getJavaFXLabelJMethodBody() {
 		if( javafxLabelJMethodBody == null ) {
 			javafxLabelJMethodBody = new JMethodBodyCFLabel();
@@ -1037,6 +1096,16 @@ implements ICFBamJavaFXServerMethodPaneCommon
 		}
 
 		if( popObj == null ) {
+			getJavaFXEditorCodeVis().setValue( null );
+		}
+		else {
+			getJavaFXEditorCodeVis().setValue(
+				( popObj.getRequiredCodeVis() == null )
+					? null
+					: popObj.getRequiredCodeVis().toString() );
+		}
+
+		if( popObj == null ) {
 			getJavaFXEditorJMethodBody().setTextValue( null );
 		}
 		else {
@@ -1124,6 +1193,10 @@ implements ICFBamJavaFXServerMethodPaneCommon
 		editObj.setRequiredIsInstanceMethod( getJavaFXEditorIsInstanceMethod().getBooleanValue() );
 
 		editObj.setRequiredIsServerOnly( getJavaFXEditorIsServerOnly().getBooleanValue() );
+
+		String strcodevis = getJavaFXEditorCodeVis().getValue();
+		ICFBamSchema.CodeVisibilityEnum curcodevis = ICFBamSchema.parseCodeVisibilityEnum( "CodeVis", strcodevis );
+		editObj.setRequiredCodeVis( curcodevis );
 
 		if( getJavaFXEditorJMethodBody().getTextValue() == null ) {
 			editObj.setRequiredJMethodBody( "" );
@@ -1459,6 +1532,9 @@ implements ICFBamJavaFXServerMethodPaneCommon
 		}
 		if( javafxEditorIsServerOnly != null ) {
 			javafxEditorIsServerOnly.setDisable( ! isEditing );
+		}
+		if( javafxEditorCodeVis != null ) {
+			javafxEditorCodeVis.setDisable( ! isEditing );
 		}
 		if( javafxEditorJMethodBody != null ) {
 			javafxEditorJMethodBody.setDisable( ! isEditing );

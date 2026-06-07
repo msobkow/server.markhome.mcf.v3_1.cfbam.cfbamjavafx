@@ -104,6 +104,12 @@ implements ICFBamJavaFXTablePaneCommon
 			"ClusterGroup",
 			"TenantGroup" );
 
+	protected ObservableList<String> observableListOfCodeVis =
+		FXCollections.observableArrayList(
+			"Public",
+			"Protected",
+			"Private" );
+
 	protected class DefSchemaCFLabel
 		extends CFLabel
 	{
@@ -842,6 +848,24 @@ implements ICFBamJavaFXTablePaneCommon
 		}
 	}
 
+	protected class CodeVisCFLabel
+		extends CFLabel
+	{
+		public CodeVisCFLabel() {
+			super();
+			setText(Inz.s("cfbam.javafx.Table.AttrPane.CodeVis.EffLabel"));
+		}
+	}
+
+	protected class CodeVisEditor
+		extends ComboBox<String>
+	{
+		public CodeVisEditor() {
+			super();
+			setItems( observableListOfCodeVis );
+		}
+	}
+
 	protected ICFBamSchemaDefObj javafxLookupDefSchemaObj = null;
 	protected DefSchemaCFLabel javafxLabelLookupDefSchema = null;
 	protected DefSchemaCFReferenceEditor javafxReferenceLookupDefSchema = null;
@@ -889,6 +913,8 @@ implements ICFBamJavaFXTablePaneCommon
 	protected LoaderBehaviourEditor javafxEditorLoaderBehaviour = null;
 	protected SecScopeCFLabel javafxLabelSecScope = null;
 	protected SecScopeEditor javafxEditorSecScope = null;
+	protected CodeVisCFLabel javafxLabelCodeVis = null;
+	protected CodeVisEditor javafxEditorCodeVis = null;
 
 	public CFBamJavaFXTableAttrPane( ICFFormManager formManager, ICFBamJavaFXSchema argSchema, ICFBamTableObj argFocus ) {
 		super();
@@ -1148,6 +1174,17 @@ implements ICFBamJavaFXTablePaneCommon
 		gridRow ++;
 
 		ctrl = getJavaFXEditorSecScope();
+		setHalignment( ctrl, HPos.LEFT );
+		add( ctrl, 0, gridRow );
+		gridRow ++;
+
+		label = getJavaFXLabelCodeVis();
+		setHalignment( label, HPos.LEFT );
+		setValignment( label, VPos.BOTTOM );
+		add( label, 0, gridRow );
+		gridRow ++;
+
+		ctrl = getJavaFXEditorCodeVis();
 		setHalignment( ctrl, HPos.LEFT );
 		add( ctrl, 0, gridRow );
 		gridRow ++;
@@ -1692,6 +1729,28 @@ implements ICFBamJavaFXTablePaneCommon
 		javafxEditorSecScope = value;
 	}
 
+	public CodeVisCFLabel getJavaFXLabelCodeVis() {
+		if( javafxLabelCodeVis == null ) {
+			javafxLabelCodeVis = new CodeVisCFLabel();
+		}
+		return( javafxLabelCodeVis );
+	}
+
+	public void setJavaFXLabelCodeVis( CodeVisCFLabel value ) {
+		javafxLabelCodeVis = value;
+	}
+
+	public CodeVisEditor getJavaFXEditorCodeVis() {
+		if( javafxEditorCodeVis == null ) {
+			javafxEditorCodeVis = new CodeVisEditor();
+		}
+		return( javafxEditorCodeVis );
+	}
+
+	public void setJavaFXEditorCodeVis( CodeVisEditor value ) {
+		javafxEditorCodeVis = value;
+	}
+
 	public void populateFields()
 	{
 		ICFBamTableObj popObj = getEffJavaFXFocus();
@@ -1865,6 +1924,16 @@ implements ICFBamJavaFXTablePaneCommon
 					? null
 					: popObj.getRequiredSecScope().toString() );
 		}
+
+		if( popObj == null ) {
+			getJavaFXEditorCodeVis().setValue( null );
+		}
+		else {
+			getJavaFXEditorCodeVis().setValue(
+				( popObj.getRequiredCodeVis() == null )
+					? null
+					: popObj.getRequiredCodeVis().toString() );
+		}
 	}
 
 	public void postFields()
@@ -1968,6 +2037,10 @@ implements ICFBamJavaFXTablePaneCommon
 		String strsecscope = getJavaFXEditorSecScope().getValue();
 		ICFBamSchema.SecScopeEnum cursecscope = ICFBamSchema.parseSecScopeEnum( "SecScope", strsecscope );
 		editObj.setRequiredSecScope( cursecscope );
+
+		String strcodevis = getJavaFXEditorCodeVis().getValue();
+		ICFBamSchema.CodeVisibilityEnum curcodevis = ICFBamSchema.parseCodeVisibilityEnum( "CodeVis", strcodevis );
+		editObj.setRequiredCodeVis( curcodevis );
 	}
 
 	public void setPaneMode( CFPane.PaneMode value ) {
@@ -2315,6 +2388,9 @@ implements ICFBamJavaFXTablePaneCommon
 		}
 		if( javafxEditorSecScope != null ) {
 			javafxEditorSecScope.setDisable( ! isEditing );
+		}
+		if( javafxEditorCodeVis != null ) {
+			javafxEditorCodeVis.setDisable( ! isEditing );
 		}
 	}
 }
