@@ -375,6 +375,8 @@ public interface ICFBamJavaFXSchema
 
 	public ICFBamJavaFXTableColFactory getTableColFactory();
 
+	public ICFSecJavaFXTableInfoFactory getTableInfoFactory();
+
 	public ICFBamJavaFXTableTweakFactory getTableTweakFactory();
 
 	public ICFSecJavaFXTenantFactory getTenantFactory();

@@ -217,6 +217,7 @@ implements ICFBamJavaFXSchema
 	protected ICFBamJavaFXTZTimestampTypeFactory factoryTZTimestampType = null;
 	protected ICFBamJavaFXTableFactory factoryTable = null;
 	protected ICFBamJavaFXTableColFactory factoryTableCol = null;
+	protected ICFSecJavaFXTableInfoFactory factoryTableInfo = null;
 	protected ICFBamJavaFXTableTweakFactory factoryTableTweak = null;
 	protected ICFSecJavaFXTenantFactory factoryTenant = null;
 	protected ICFBamJavaFXTextColFactory factoryTextCol = null;
@@ -1420,6 +1421,13 @@ implements ICFBamJavaFXSchema
 			factoryTableCol = new CFBamJavaFXTableColFactory( this );
 		}
 		return( factoryTableCol );
+	}
+
+	public ICFSecJavaFXTableInfoFactory getTableInfoFactory() {
+		if( factoryTableInfo == null ) {
+			factoryTableInfo = new CFSecJavaFXTableInfoFactory( this );
+		}
+		return( factoryTableInfo );
 	}
 
 	public ICFBamJavaFXTableTweakFactory getTableTweakFactory() {
